@@ -1,0 +1,184 @@
+//  const old = await prodect.create(req.body)
+//         if (old) {
+//             req.files.forEach(async (image, key) => {
+//                 var imagetype = ''
+//                 if (image.mimetype == "image/png") {
+//                     imagetype = 'png'
+//                 } else if (image.mimetype == 'image/jpeg') {
+//                     imagetype = 'jpeg'
+//                 }
+//                 let imageData = {
+//                     type: imagetype,
+//                     path: image.filename,
+//                     fullpath: "localhost:3003/" + image.path,
+//                     productId: old._id
+//                 }
+//                 await ProductImages.create(imageData)
+//             });
+//             res.send({
+//                 status: true,
+//                 data: old
+//             })
+//         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//         //image and api
+
+//         import user from "../models/user.model.js";
+
+// export const getOtp = async (req, res) => {
+//     try {
+//         var otp = Math.floor(1000 + Math.random() * 9000)
+//         //req.body.otp = otp
+
+
+
+
+
+
+
+
+
+//         const tranpoter = nodemailer.createTransport({
+//             host: "smtp.gmail.com",
+//             port: 587,
+//             secure: false,
+//             requireTLS: true,
+//             auth: {
+//                 user: "sahildeshwali1212@gmail.com",
+//                 pass: "ifvfkweagbhguwxw"
+//             },
+//         })
+//         var mailoption = {
+//             from: "sahildeshwali1212@gmail.com",
+//             to: req.body,
+//             subject: "Verification OTP for pixels.com",
+//             html: "<p>Your verification OTP is:"+otp+"</ap>"
+//         }
+//         tranpoter.sendMail(mailoption, function (err, info) {
+//             if (err) {
+//                 console.log(err);
+//             } else {
+//                res.send({
+//                 status:true,
+//                 msg:"send",
+//                 data:info
+//                })
+//             }
+//         })
+
+
+
+
+
+
+//         const findOtp = await user.findByIdAndUpdate({ _id: req.body.userId }, req.body)
+//         findOtp.otp = otp
+//         if (findOtp) {
+//             res.send({
+//                 status: true,
+//                 msg: "get otp success",
+//                 data: findOtp
+//             })
+//         } else {
+//             res.send({
+//                 status: false,
+//                 msg: "cant get otp somedata wrong try again",
+//                 data: {}
+//             })
+//         }
+//     } catch (err) {
+//         res.send({
+//             status: false,
+//             msg: "somthing wrong with data mistec",
+//             data: err
+//         })
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//otp with mail
+import nodemailer from "nodemailer"
+import user from "../models/user.model.js"
+export const getOtp = async (req, res) => {
+    var otp = Math.floor(1000 + Math.random() * 9000)
+    var tranpoter = nodemailer.createTransport({
+        host: process.env.HOST,
+        port: process.env.CODE,
+        // secure:process.env.SECURE,
+        // REQUIRETLS:process.env.REQUIRETLS,
+        secure: false,
+        requireTLS: true,
+        auth: {
+            user: process.env.AUTH_USER,
+            pass: process.env.AUTHPASS
+        }
+    })
+    var mailoption = {
+        from: process.env.FROM,
+        to: req.body.email,
+        subject: "Verification OTP for pixels.com",
+        html: "<p>Your verification OTP is:" + otp + "</ap>"
+    }
+    tranpoter.sendMail(mailoption, function (err, info) {
+        if (err) {
+            console.log("error--", err);
+        }else{
+            console.log("info--", info);
+
+        }
+    })
+    req.body.otp = otp
+    const createOtp = await user.findByIdAndUpdate({ _id: req.body.id }, req.body)
+    if (createOtp) {
+        res.send({
+            status: true,
+            msg: "otp get successfully",
+            data: createOtp
+        })
+    } else {
+        res.send({
+            status: false,
+            msg: "cant get otp some misteck",
+            data: {}
+        })
+    }
+}
