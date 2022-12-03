@@ -43,7 +43,14 @@ const ss = new mongoose.Schema({
         type:Array,
         required:false
     },
-    profile_pic:[profile]
+    status: {
+        type: String,
+        enum: ["Active", "deActive"],
+        default: "Active"
+    },
+    createAt: { type: Date, default: Date.now },
+    updateAt: { type: Date, default: Date.now }
+
 })
 const user = mongoose.model("shecma", ss)
 export default user

@@ -81,33 +81,28 @@ export const login = async (req, res) => {
 }
 
 export const alldata = async (req, res) => {
-    let where = {
-
+   const userSearch = await user.aggregate([
+    {
+        $match:{
+            username:{$regex:req.query.search}
+        }
+    },
+    {
+        "$lookup":{
+            "from":"shecma",
+            "localField":"_id",
+            "foreignField":"shecma",
+            "as":"user"
+        }
+    },
+    {
+        "$unwind":{
+            path:"$user",
+            preserveNullAndEmptyArrays:true
+        }
     }
-    if (req.query.username) {
-        where.username = req.query.username
-    }
-    if (req.query.email) {
-        where.email = req.query.email
-    }
-    if (req.query.number) {
-        where.number = req.query.number
-    }
-    const data = await user.find(where)
-    if (data.length > 0) {
-        res.send({
-            status: true,
-            msg: "User data fetch successfully.",
-            data: data
-        })
-    } else {
-        res.send({
-            status: false,
-            msg: "No data found",
-            data: []
-        })
-    }
-
+   ])
+   res.send(userSearch)
 }
 export const update = async (req, res) => {
     try {
@@ -227,7 +222,4 @@ export const otpVarify = async (req, res) => {
             data: rr
         })
     }
-}
-export const uploadProfile = async(req,res)=>{
-    
 }
