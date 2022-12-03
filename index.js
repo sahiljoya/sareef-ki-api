@@ -9,6 +9,6 @@ connectDB()
 config()
 app.use(router)
 app.use(imageRouter)
-app.listen(process.env.PORT ||  3003, (req, res) => {
+app.listen(process.env.PORT||  3003, (req, res) => {
     console.log("server port:3003");
 })
