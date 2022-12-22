@@ -1,6 +1,6 @@
 import Express from "express";
 import router from "./router/user.router.js";
-import connectDB from "./congfi/mongo.js";
+import connectDB from "./config/mongo.js";
 import { config } from "dotenv";
 import imageRouter from "./router/image.router.js";
 import ReelsRouter from "./router/reels.router.js";
