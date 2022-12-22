@@ -47,10 +47,7 @@ const ss = new mongoose.Schema({
         type: String,
         enum: ["Active", "deActive"],
         default: "Active"
-    },
-    createAt: { type: Date, default: Date.now },
-    updateAt: { type: Date, default: Date.now }
-
-})
+    }
+},{timestamps:true})
 const user = mongoose.model("shecma", ss)
 export default user

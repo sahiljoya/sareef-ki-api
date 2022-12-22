@@ -16,8 +16,6 @@ const profile = new mongoose.Schema({
         type: String,
         enum: ["Active", "Deactive"],
         default: "Active"
-    },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-})
+    }
+},{ timestamps: true })
 export default profile

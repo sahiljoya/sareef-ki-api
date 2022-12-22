@@ -12,15 +12,34 @@ let imageStorege = multer.diskStorage({
         // path.extname get the uploaded file extension
     }
 })
+let reelstorege = multer.diskStorage({
+    destination: "reels",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+    }
+})
 export const imageUploaded = multer({
     storage: imageStorege,
     limits: {
         fileSize: 1000000 * 3  // 1000000 Bytes = 1 MB 
     },
     fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(png|jpg|jpeg|zip)$/)) {
+        if (!file.originalname.match(/\.(png|jpg|jpeg|zip|html)$/)) {
             // upload only png and jpg format
             return cb(new Error("pleass anter valid image"))
+        }
+        cb(undefined, true)
+    }
+})
+export const reelServish = multer({
+    storage: reelstorege,
+    limits: {
+        fileSize: 1000000 * 25
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(mp3|mp4|mov|wmv|webm)$/)) {
+            // upload only png and jpg format
+            return cb(new Error("pleass anter valid reel path"))
         }
         cb(undefined, true)
     }
