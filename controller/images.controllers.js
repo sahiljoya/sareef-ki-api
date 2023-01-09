@@ -1,22 +1,18 @@
 import userImage from "../models/user.images.model.js";
 export const uploadProfile = async (req, res) => {
     try {
-        var imagedata = []
-        req.files.forEach(image => {
-            var imageTypee = ''
-            if (image.mimetype == 'image/png') {
-                imageTypee = 'png'
-            } else if (image.mimetype == 'image/jpg') {
-                imageTypee = 'jpg'
-            }
-            var imageStroge = {
-                type: imageTypee,
-                path: image.filename,
-                fullpath: 'localhost:3003/' + image.path
-            }
-            imagedata.push(imageStroge)
-        });
-        req.body.image = imagedata
+        var imageTypee = ''
+        if (req.file.mimetype == 'image/png') {
+            imageTypee = 'png'
+        } else if (req.file.mimetype == 'image/jpg') {
+            imageTypee = 'jpg'
+        }
+        var imageStroge = {
+            type: imageTypee,
+            path: req.file.filename,
+            fullpath: 'localhost:3003/' + req.file.path
+        }
+        req.body.image = imageStroge
         const createProfile = await userImage.create(req.body)
         res.send({
             status: true,
